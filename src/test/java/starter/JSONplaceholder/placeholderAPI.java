@@ -22,7 +22,7 @@ public class placeholderAPI {
     public void postNewUser() {
         Response response = SerenityRest.given().
                 contentType(ContentType.JSON).
-                body(newUser).
+                body(newUser.signInInfo().toJSONString()).
                 when().
                 post("/users");
 

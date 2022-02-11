@@ -35,6 +35,16 @@ public class User {
     private final String newPostBody = "Hello world!";
     private final String newPostTitle = "Message of the day";
 
+    public JSONObject signInInfo(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("name",name);
+        map.put("username",username);
+        map.put("email",email);
+        map.put("phone",phone);
+        map.put("website",website);
+        return new JSONObject(map);
+    }
+
     public JSONObject newPost(){
         Map<String,Object> map = new HashMap<>();
         map.put("userId",userId);
@@ -72,5 +82,4 @@ public class User {
         map.put("body",newPostBody);
         return new JSONObject(map);
     }
-
 }

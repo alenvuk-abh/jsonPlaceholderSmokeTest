@@ -37,5 +37,4 @@ public class newUserFlowSteps {
 
     @Then("user has deleted their account")
     public void deleteUserAccount(){ placeholderAPI.deleteAccount();}
-
 }
