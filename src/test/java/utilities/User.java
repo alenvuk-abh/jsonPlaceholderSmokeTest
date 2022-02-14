@@ -20,6 +20,7 @@ public class User {
     private Integer userId;
     private int postId;
     private Integer albumId;
+    private int commentId;
     private int profilePictureId;
     private String name;
     private String username;

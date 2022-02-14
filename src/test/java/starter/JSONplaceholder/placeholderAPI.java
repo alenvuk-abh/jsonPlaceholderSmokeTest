@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
 import net.thucydides.core.annotations.Step;
+import org.checkerframework.checker.units.qual.C;
 import org.testng.Assert;
 import utilities.User;
 import utilities.Utils;
@@ -58,6 +59,7 @@ public class placeholderAPI {
                 .post("/posts/{postId}/comments");
 
         Assert.assertEquals(response.getStatusCode(),201,Utils.responseError);
+        newUser.setCommentId(response.jsonPath().get("id"));
         Assert.assertEquals(response.jsonPath().get("name"),newUser.getUsername(),Utils.badResponseAPI("name"));
         Assert.assertEquals(response.jsonPath().get("email"),newUser.getEmail(),Utils.badResponseAPI("email"));
         Assert.assertEquals(response.jsonPath().get("body"),newUser.getCommentBody(),Utils.badResponseAPI("body"));
@@ -114,6 +116,19 @@ public class placeholderAPI {
 
         Assert.assertEquals(response.getStatusCode(),200,Utils.responseError);
         Assert.assertEquals(response.jsonPath().get("id"),new Integer(newUser.getUserId()-1),Utils.badResponseAPI("userId"));
+    }
+
+    @Step("GET user comment")
+    public void getComment(){
+        Response response = SerenityRest.given()
+                .contentType(ContentType.JSON)
+                .pathParams("postId",newUser.getPostId()-1)
+                .queryParam("id",newUser.getCommentId()-1)
+                .get("/posts/{postId}/comments");
+
+        Assert.assertEquals(response.getStatusCode(),200,Utils.responseError);
+        Assert.assertEquals(response.jsonPath().getString("[0].id"),String.valueOf(newUser.getCommentId()-1),Utils.badResponseAPI("commentId"));
+        Assert.assertEquals(response.jsonPath().getString("[0].postId"),String.valueOf(newUser.getPostId()-1),Utils.badResponseAPI("postId"));
     }
 
     @Step("GET user profile photo")
